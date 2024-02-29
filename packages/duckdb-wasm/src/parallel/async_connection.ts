@@ -32,19 +32,9 @@ export class AsyncDuckDBConnection {
 
     /** Run a query */
     public async query<T extends { [key: string]: arrow.DataType } = any>(text: string): Promise<arrow.Table<T>> {
-        this._bindings.logger.log({
-            timestamp: new Date(),
-            level: LogLevel.INFO,
-            origin: LogOrigin.ASYNC_DUCKDB,
-            topic: LogTopic.QUERY,
-            event: LogEvent.RUN,
-            value: text,
-        });
-        const buffer = await this._bindings.runQuery(this._conn, text);
-        const reader = arrow.RecordBatchReader.from<T>(buffer);
-        console.assert(reader.isSync(), "Reader is not sync");
-        console.assert(reader.isFile(), "Reader is not file");
-        return new arrow.Table(reader as arrow.RecordBatchFileReader);
+        const streamReader = await this.send(text);
+        const batches = await streamReader.readAll();
+        return new arrow.Table(batches);
     }
 
     /** Send a query */
