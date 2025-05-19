@@ -1101,8 +1101,8 @@ jobs:
               run: |
                   echo "${TAG}"
                   ./scripts/npm_publish_lib.sh
-                  ./scripts/npm_publish_shell.sh
-                  ./scripts/npm_publish_react.sh
+                  # ./scripts/npm_publish_shell.sh
+                  # ./scripts/npm_publish_react.sh
 
     merge_reports:
         name: Merge benchmark reports
