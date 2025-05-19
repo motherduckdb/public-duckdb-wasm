@@ -1097,7 +1097,7 @@ jobs:
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
                   TAG: ${{ startsWith(github.head_ref, 'v') && 'latest' || 'next' }}
-              if: env.NODE_AUTH_TOKEN != null && github.ref == 'refs/heads/main'
+              if: env.NODE_AUTH_TOKEN != null && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/yl/last-stable')
               run: |
                   echo "${TAG}"
                   ./scripts/npm_publish_lib.sh
