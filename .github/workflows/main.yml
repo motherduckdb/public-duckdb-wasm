@@ -6,30 +6,30 @@ on:
         tags:
             - v*
     workflow_call:
-      inputs:
-        override_git_describe:
-          type: string
-        git_ref:
-          type: string
-        skip_tests:
-          type: string
+        inputs:
+            override_git_describe:
+                type: string
+            git_ref:
+                type: string
+            skip_tests:
+                type: string
     workflow_dispatch:
-      inputs:
-        override_git_describe:
-          type: string
-        git_ref:
-          type: string
-        skip_tests:
-          type: string
+        inputs:
+            override_git_describe:
+                type: string
+            git_ref:
+                type: string
+            skip_tests:
+                type: string
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || '' }}-${{ github.base_ref || '' }}-${{ github.ref != 'refs/heads/main' || github.sha }}
-  cancel-in-progress: true
+    group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || '' }}-${{ github.base_ref || '' }}-${{ github.ref != 'refs/heads/main' || github.sha }}
+    cancel-in-progress: true
 
 env:
-  EMSCRIPTEN_VERSION: '3.1.71'
-  EMSCRIPTEN_VERSION_COI: '3.1.57'
-  DEFAULT_USE_GENERATED_EXPORTED_LIST: 'no'
+    EMSCRIPTEN_VERSION: '3.1.71'
+    EMSCRIPTEN_VERSION_COI: '3.1.57'
+    DEFAULT_USE_GENERATED_EXPORTED_LIST: 'no'
 
 jobs:
     clang_format:
@@ -147,7 +147,7 @@ jobs:
             - name: Build generator
               shell: bash
               run: |
-                      cargo build --manifest-path=./Cargo.toml --release -p dataprep
+                  cargo build --manifest-path=./Cargo.toml --release -p dataprep
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
@@ -721,27 +721,27 @@ jobs:
             - name: Build @motherduck/duckdb-wasm
               shell: bash
               run: |
-                      rm -rf ./packages/duckdb-wasm/dist/
-                      yarn workspace @motherduck/duckdb-wasm build:release
-                      yarn workspace @motherduck/duckdb-wasm docs
+                  rm -rf ./packages/duckdb-wasm/dist/
+                  yarn workspace @motherduck/duckdb-wasm build:release
+                  yarn workspace @motherduck/duckdb-wasm docs
 
             - name: Build @motherduck/duckdb-wasm-shell
               shell: bash
               run: |
-                      rm -rf ./packages/duckdb-wasm-shell/dist/
-                      yarn workspace @motherduck/duckdb-wasm-shell install:wasmpack
-                      yarn workspace @motherduck/duckdb-wasm-shell build:release
+                  rm -rf ./packages/duckdb-wasm-shell/dist/
+                  yarn workspace @motherduck/duckdb-wasm-shell install:wasmpack
+                  yarn workspace @motherduck/duckdb-wasm-shell build:release
 
             - name: Build @motherduck/duckdb-wasm-app
               shell: bash
               run: |
-                      rm -rf ./packages/duckdb-wasm-app/build/
-                      yarn workspace @motherduck/duckdb-wasm-app build:release
+                  rm -rf ./packages/duckdb-wasm-app/build/
+                  yarn workspace @motherduck/duckdb-wasm-app build:release
 
             - name: Test @motherduck/duckdb-wasm on Chrome
               shell: bash
               run: |
-                      CHROME_BIN=`which google-chrome` yarn workspace @motherduck/duckdb-wasm test:chrome
+                  CHROME_BIN=`which google-chrome` yarn workspace @motherduck/duckdb-wasm test:chrome
 
             #            - name: Test @motherduck/duckdb-wasm on Firefox
             #              uses: duckdb/duckdb-wasm-ci-env@f10a0954b7b2b98e8526e0f7bbcb10e614defcbd
@@ -752,22 +752,22 @@ jobs:
             - name: Test @motherduck/duckdb-wasm on Node.js
               shell: bash
               run: |
-                      yarn workspace @motherduck/duckdb-wasm test:node
+                  yarn workspace @motherduck/duckdb-wasm test:node
 
             - name: Coverage @motherduck/duckdb-wasm
               shell: bash
               run: |
-                       CHROME_BIN=`which google-chrome` yarn workspace @motherduck/duckdb-wasm test:chrome:coverage
+                  CHROME_BIN=`which google-chrome` yarn workspace @motherduck/duckdb-wasm test:chrome:coverage
 
             - name: Build examples
               shell: bash
               run: |
-                      yarn install
-                      yarn workspace @motherduck/duckdb-wasm-examples-bare-node test
-                      yarn workspace @motherduck/duckdb-wasm-examples-bare-browser build
-                      yarn workspace @motherduck/duckdb-wasm-examples-esbuild-node build
-                      yarn workspace @motherduck/duckdb-wasm-examples-esbuild-node test
-                      yarn workspace @motherduck/duckdb-wasm-examples-esbuild-browser build
+                  yarn install
+                  yarn workspace @motherduck/duckdb-wasm-examples-bare-node test
+                  yarn workspace @motherduck/duckdb-wasm-examples-bare-browser build
+                  yarn workspace @motherduck/duckdb-wasm-examples-esbuild-node build
+                  yarn workspace @motherduck/duckdb-wasm-examples-esbuild-node test
+                  yarn workspace @motherduck/duckdb-wasm-examples-esbuild-browser build
 
             - name: Package
               shell: bash
@@ -781,14 +781,14 @@ jobs:
             - name: Build @duckdb/benchmarks
               shell: bash
               run: |
-                rm -r packages/duckdb-wasm/node_modules/*
-                yarn workspace @duckdb/benchmarks build
-                yarn workspace @duckdb/benchmarks bench:system:sort:int
-                yarn workspace @duckdb/benchmarks bench:system:join:2
-                yarn workspace @duckdb/benchmarks bench:system:join:3
-                yarn workspace @duckdb/benchmarks bench:system:regex
-                yarn workspace @duckdb/benchmarks bench:system:sum:int
-                yarn workspace @duckdb/benchmarks bench:system:sum:csv
+                  rm -r packages/duckdb-wasm/node_modules/*
+                  yarn workspace @duckdb/benchmarks build
+                  yarn workspace @duckdb/benchmarks bench:system:sort:int
+                  yarn workspace @duckdb/benchmarks bench:system:join:2
+                  yarn workspace @duckdb/benchmarks bench:system:join:3
+                  yarn workspace @duckdb/benchmarks bench:system:regex
+                  yarn workspace @duckdb/benchmarks bench:system:sum:int
+                  yarn workspace @duckdb/benchmarks bench:system:sum:csv
 
             - name: Upload reports
               uses: actions/upload-artifact@v4
@@ -820,10 +820,10 @@ jobs:
               if: github.ref == 'refs/heads/main'
               shell: bash
               run: |
-                yarn workspace @duckdb/benchmarks bench:system:tpch:duckdb 0.01
-                yarn workspace @duckdb/benchmarks bench:system:tpch:sqljs 0.01
-                yarn workspace @duckdb/benchmarks bench:system:tpch:arquero 0.01
-                yarn workspace @duckdb/benchmarks bench:system:tpch:lovefield 0.01
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:duckdb 0.01
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:sqljs 0.01
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:arquero 0.01
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:lovefield 0.01
 
             - name: Upload reports TPCH 0.01
               if: github.ref == 'refs/heads/main'
@@ -854,10 +854,10 @@ jobs:
               if: github.ref == 'refs/heads/main'
               shell: bash
               run: |
-                yarn workspace @duckdb/benchmarks bench:system:tpch:duckdb 0.1
-                yarn workspace @duckdb/benchmarks bench:system:tpch:sqljs 0.1
-                yarn workspace @duckdb/benchmarks bench:system:tpch:arquero 0.1
-                yarn workspace @duckdb/benchmarks bench:system:tpch:lovefield 0.1
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:duckdb 0.1
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:sqljs 0.1
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:arquero 0.1
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:lovefield 0.1
 
             - name: Upload reports TPCH 0.1
               if: github.ref == 'refs/heads/main'
@@ -888,10 +888,10 @@ jobs:
               if: github.ref == 'refs/heads/main'
               shell: bash
               run: |
-                yarn workspace @duckdb/benchmarks bench:system:tpch:duckdb 0.25
-                yarn workspace @duckdb/benchmarks bench:system:tpch:sqljs 0.25
-                yarn workspace @duckdb/benchmarks bench:system:tpch:arquero 0.25
-                yarn workspace @duckdb/benchmarks bench:system:tpch:lovefield 0.25
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:duckdb 0.25
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:sqljs 0.25
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:arquero 0.25
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:lovefield 0.25
 
             - name: Upload reports TPCH 0.25
               if: github.ref == 'refs/heads/main'
@@ -922,10 +922,10 @@ jobs:
               if: github.ref == 'refs/heads/main'
               shell: bash
               run: |
-                yarn workspace @duckdb/benchmarks bench:system:tpch:duckdb 0.5
-                yarn workspace @duckdb/benchmarks bench:system:tpch:sqljs 0.5
-                yarn workspace @duckdb/benchmarks bench:system:tpch:arquero 0.5
-                yarn workspace @duckdb/benchmarks bench:system:tpch:lovefield 0.5
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:duckdb 0.5
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:sqljs 0.5
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:arquero 0.5
+                  yarn workspace @duckdb/benchmarks bench:system:tpch:lovefield 0.5
 
             - name: Upload reports TPCH 0.5
               if: github.ref == 'refs/heads/main'
@@ -1035,22 +1035,22 @@ jobs:
             - name: Build @motherduck/duckdb-wasm
               shell: bash
               run: |
-                      rm -rf ./packages/duckdb-wasm/dist/
-                      yarn workspace @motherduck/duckdb-wasm build:release
-                      yarn workspace @motherduck/duckdb-wasm docs
+                  rm -rf ./packages/duckdb-wasm/dist/
+                  yarn workspace @motherduck/duckdb-wasm build:release
+                  yarn workspace @motherduck/duckdb-wasm docs
 
             - name: Build @motherduck/duckdb-wasm-shell
               shell: bash
               run: |
-                      rm -rf ./packages/duckdb-wasm-shell/dist/
-                      yarn workspace @motherduck/duckdb-wasm-shell install:wasmpack
-                      yarn workspace @motherduck/duckdb-wasm-shell build:release
+                  rm -rf ./packages/duckdb-wasm-shell/dist/
+                  yarn workspace @motherduck/duckdb-wasm-shell install:wasmpack
+                  yarn workspace @motherduck/duckdb-wasm-shell build:release
 
             - name: Build @motherduck/duckdb-wasm-app
               shell: bash
               run: |
-                      rm -rf ./packages/duckdb-wasm-app/build/
-                      yarn workspace @motherduck/duckdb-wasm-app build:release
+                  rm -rf ./packages/duckdb-wasm-app/build/
+                  yarn workspace @motherduck/duckdb-wasm-app build:release
 
             #- name: Coverage @motherduck/duckdb-wasm
             #  shell: bash
@@ -1070,10 +1070,10 @@ jobs:
               run: |
                   ./scripts/npm_measure_lib.sh
 
-            - name: Test @motherduck/duckdb-wasm on Chrome
-              shell: bash
-              run: |
-                      CHROME_BIN=`which google-chrome` yarn workspace @motherduck/duckdb-wasm test:chrome
+            # - name: Test @motherduck/duckdb-wasm on Chrome
+            #   shell: bash
+            #   run: |
+            #       CHROME_BIN=`which google-chrome` yarn workspace @motherduck/duckdb-wasm test:chrome
 
             #            - name: Test @motherduck/duckdb-wasm on Firefox
             #              uses: duckdb/duckdb-wasm-ci-env@f10a0954b7b2b98e8526e0f7bbcb10e614defcbd
@@ -1081,10 +1081,10 @@ jobs:
             #                  script: |-
             #                      yarn workspace @motherduck/duckdb-wasm test:firefox
 
-            - name: Test @motherduck/duckdb-wasm on Node.js
-              shell: bash
-              run: |
-                      yarn workspace @motherduck/duckdb-wasm test:node
+            # - name: Test @motherduck/duckdb-wasm on Node.js
+            #   shell: bash
+            #   run: |
+            #       yarn workspace @motherduck/duckdb-wasm test:node
 
             - name: Deploy GitHub Page
               if: github.ref == 'refs/heads/main'
@@ -1097,7 +1097,7 @@ jobs:
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
                   TAG: ${{ startsWith(github.head_ref, 'v') && 'latest' || 'next' }}
-              if: env.NODE_AUTH_TOKEN != null && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/yl/last-stable')
+              if: env.NODE_AUTH_TOKEN != null && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/1.4-branch-md-public')
               run: |
                   echo "${TAG}"
                   ./scripts/npm_publish_lib.sh
@@ -1148,12 +1148,12 @@ jobs:
             - name: Merge reports
               shell: bash
               run: |
-                mkdir duckdb
-                cd duckdb
-                wget https://github.com/duckdb/duckdb/releases/download/v0.8.1/duckdb_cli-linux-amd64.zip
-                unzip duckdb_cli-linux-amd64.zip
-                ./duckdb -c "COPY (FROM read_json_auto('../reports/*.json', union_by_name=1)) TO 'benchmarks.json'"
-                ./duckdb -c "COPY (FROM read_json_auto('../reports/*.json', union_by_name=1)) TO 'benchmarks.csv'"
+                  mkdir duckdb
+                  cd duckdb
+                  wget https://github.com/duckdb/duckdb/releases/download/v0.8.1/duckdb_cli-linux-amd64.zip
+                  unzip duckdb_cli-linux-amd64.zip
+                  ./duckdb -c "COPY (FROM read_json_auto('../reports/*.json', union_by_name=1)) TO 'benchmarks.json'"
+                  ./duckdb -c "COPY (FROM read_json_auto('../reports/*.json', union_by_name=1)) TO 'benchmarks.csv'"
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
