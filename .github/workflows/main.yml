@@ -75,23 +75,23 @@ jobs:
                   script: |-
                       yarn install --frozen-lockfile --prefer-offline
 
-            - name: Lint @duckdb/duckdb-wasm
+            - name: Lint @motherduck/duckdb-wasm
               uses: duckdb/duckdb-wasm-ci-env@f10a0954b7b2b98e8526e0f7bbcb10e614defcbd
               with:
                   script: |-
-                      yarn workspace @duckdb/duckdb-wasm run lint
+                      yarn workspace @motherduck/duckdb-wasm run lint
 
-            - name: Lint @duckdb/duckdb-wasm-shell
+            - name: Lint @motherduck/duckdb-wasm-shell
               uses: duckdb/duckdb-wasm-ci-env@f10a0954b7b2b98e8526e0f7bbcb10e614defcbd
               with:
                   script: |-
-                      yarn workspace @duckdb/duckdb-wasm-shell run lint
+                      yarn workspace @motherduck/duckdb-wasm-shell run lint
 
-            - name: Lint @duckdb/benchmarks
+            - name: Lint @motherduck/benchmarks
               uses: duckdb/duckdb-wasm-ci-env@f10a0954b7b2b98e8526e0f7bbcb10e614defcbd
               with:
                   script: |-
-                      yarn workspace @duckdb/benchmarks run lint
+                      yarn workspace @motherduck/benchmarks run lint
 
     tpchgen:
         name: TPCH Generator
@@ -718,27 +718,27 @@ jobs:
                       ./scripts/generate_uni.sh
                       ./scripts/npm_version.sh
 
-            - name: Build @duckdb/duckdb-wasm
+            - name: Build @motherduck/duckdb-wasm
               shell: bash
               run: |
                   rm -rf ./packages/duckdb-wasm/dist/
                   yarn workspace @motherduck/duckdb-wasm build:release
                   yarn workspace @motherduck/duckdb-wasm docs
 
-            - name: Build @duckdb/duckdb-wasm-shell
+            - name: Build @motherduck/duckdb-wasm-shell
               shell: bash
               run: |
                   rm -rf ./packages/duckdb-wasm-shell/dist/
                   yarn workspace @motherduck/duckdb-wasm-shell install:wasmpack
                   yarn workspace @motherduck/duckdb-wasm-shell build:release
 
-            - name: Build @duckdb/duckdb-wasm-app
+            - name: Build @motherduck/duckdb-wasm-app
               shell: bash
               run: |
                   rm -rf ./packages/duckdb-wasm-app/build/
                   yarn workspace @motherduck/duckdb-wasm-app build:release
 
-            - name: Test @duckdb/duckdb-wasm on Chrome
+            - name: Test @motherduck/duckdb-wasm on Chrome
               shell: bash
               run: |
                   CHROME_BIN=`which google-chrome` yarn workspace @motherduck/duckdb-wasm test:chrome
@@ -747,7 +747,7 @@ jobs:
             #              uses: duckdb/duckdb-wasm-ci-env@f10a0954b7b2b98e8526e0f7bbcb10e614defcbd
             #              with:
             #                  script: |-
-            #                      yarn workspace @duckdb/duckdb-wasm test:firefox
+            #                      yarn workspace @motherduck/duckdb-wasm test:firefox
 
             - name: Test @duckdb/duckdb-wasm on Node.js
               shell: bash
