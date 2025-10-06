@@ -81,17 +81,17 @@ jobs:
                   script: |-
                       yarn workspace @motherduck/duckdb-wasm run lint
 
-            - name: Lint @motherduck/duckdb-wasm-shell
+            - name: Lint @duckdb/duckdb-wasm-shell
               uses: duckdb/duckdb-wasm-ci-env@f10a0954b7b2b98e8526e0f7bbcb10e614defcbd
               with:
                   script: |-
-                      yarn workspace @motherduck/duckdb-wasm-shell run lint
+                      yarn workspace @duckdb/duckdb-wasm-shell run lint
 
             - name: Lint @motherduck/benchmarks
               uses: duckdb/duckdb-wasm-ci-env@f10a0954b7b2b98e8526e0f7bbcb10e614defcbd
               with:
                   script: |-
-                      yarn workspace @motherduck/benchmarks run lint
+                      yarn workspace @duckdb/benchmarks run lint
 
     tpchgen:
         name: TPCH Generator
