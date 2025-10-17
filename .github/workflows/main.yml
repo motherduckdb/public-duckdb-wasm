@@ -204,7 +204,7 @@ jobs:
               run: |
                   (cd ./submodules/duckdb && git fetch --all --tags)
                   make apply_patches
-                  cd submodules/duckdb && git tag ${{ inputs.override_git_describe }}
+                  cd submodules/duckdb && (git tag -d ${{ inputs.override_git_describe }} || true) && git tag ${{ inputs.override_git_describe }}
 
             - name: Prepare environment
               uses: duckdb/duckdb-wasm-ci-env@f10a0954b7b2b98e8526e0f7bbcb10e614defcbd
@@ -302,7 +302,7 @@ jobs:
               run: |
                   (cd ./submodules/duckdb && git fetch --all --tags)
                   make apply_patches
-                  cd submodules/duckdb && git tag ${{ inputs.override_git_describe }}
+                  cd submodules/duckdb && (git tag -d ${{ inputs.override_git_describe }} || true) && git tag ${{ inputs.override_git_describe }}
 
             - name: Prepare environment
               uses: duckdb/duckdb-wasm-ci-env@f10a0954b7b2b98e8526e0f7bbcb10e614defcbd
@@ -368,7 +368,7 @@ jobs:
             - name: Prepare repository
               run: |
                   make apply_patches
-                  cd submodules/duckdb && git tag ${{ inputs.override_git_describe }}
+                  cd submodules/duckdb && (git tag -d ${{ inputs.override_git_describe }} || true) && git tag ${{ inputs.override_git_describe }}
 
             - uses: mymindstorm/setup-emsdk@v14
               with:
@@ -411,7 +411,7 @@ jobs:
             - name: Prepare repository
               run: |
                   make apply_patches
-                  cd submodules/duckdb && git tag ${{ inputs.override_git_describe }}
+                  cd submodules/duckdb && (git tag -d ${{ inputs.override_git_describe }} || true) && git tag ${{ inputs.override_git_describe }}
 
             - uses: mymindstorm/setup-emsdk@v14
               with:
@@ -454,7 +454,7 @@ jobs:
             - name: Prepare repository
               run: |
                   make apply_patches
-                  cd submodules/duckdb && git tag ${{ inputs.override_git_describe }}
+                  cd submodules/duckdb && (git tag -d ${{ inputs.override_git_describe }} || true) && git tag ${{ inputs.override_git_describe }}
 
             - uses: mymindstorm/setup-emsdk@v14
               with:
@@ -502,7 +502,7 @@ jobs:
             - name: Prepare repository
               run: |
                   make apply_patches
-                  cd submodules/duckdb && git tag ${{ inputs.override_git_describe }}
+                  cd submodules/duckdb && (git tag -d ${{ inputs.override_git_describe }} || true) && git tag ${{ inputs.override_git_describe }}
 
             - uses: mymindstorm/setup-emsdk@v14
               with:
@@ -549,7 +549,7 @@ jobs:
             - name: Prepare repository
               run: |
                   make apply_patches
-                  cd submodules/duckdb && git tag ${{ inputs.override_git_describe }}
+                  cd submodules/duckdb && (git tag -d ${{ inputs.override_git_describe }} || true) && git tag ${{ inputs.override_git_describe }}
 
             - uses: mymindstorm/setup-emsdk@v14
               with:
@@ -596,7 +596,7 @@ jobs:
             - name: Prepare repository
               run: |
                   make apply_patches
-                  cd submodules/duckdb && git tag ${{ inputs.override_git_describe }}
+                  cd submodules/duckdb && (git tag -d ${{ inputs.override_git_describe }} || true) && git tag ${{ inputs.override_git_describe }}
 
             - uses: mymindstorm/setup-emsdk@v14
               with:
