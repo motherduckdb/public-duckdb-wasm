@@ -1,4 +1,4 @@
-import * as duckdb from '@duckdb/duckdb-wasm/dist/duckdb-node-blocking';
+import * as duckdb from '@motherduck/duckdb-wasm/dist/duckdb-node-blocking';
 import * as arrow from 'apache-arrow';
 import { SystemBenchmark, SystemBenchmarkMetadata, SystemBenchmarkContext, noop } from './system_benchmark';
 import {
@@ -41,13 +41,13 @@ export class DuckDBSyncLoadedTPCHBenchmark implements SystemBenchmark {
         this.queryText = await getTPCHQuery(ctx.projectRootPath, `${this.query}.sql`);
         this.connection = this.database.connect();
     }
-    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async run(_ctx: SystemBenchmarkContext): Promise<void> {
         this.connection!.query(this.queryText!);
     }
-    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> {}
-    async afterAll(_ctx: SystemBenchmarkContext): Promise<void> {}
-    async onError(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> { }
+    async afterAll(_ctx: SystemBenchmarkContext): Promise<void> { }
+    async onError(_ctx: SystemBenchmarkContext): Promise<void> { }
 
     static async beforeGroup(
         database: duckdb.DuckDBBindings,
@@ -121,13 +121,13 @@ export class DuckDBSyncParquetTPCHBenchmark implements SystemBenchmark {
         this.queryText = await getTPCHQuery(ctx.projectRootPath, `${this.query}.sql`);
         this.connection = this.database.connect();
     }
-    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async run(_ctx: SystemBenchmarkContext): Promise<void> {
         this.connection!.query(this.queryText!);
     }
-    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> {}
-    async afterAll(_ctx: SystemBenchmarkContext): Promise<void> {}
-    async onError(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> { }
+    async afterAll(_ctx: SystemBenchmarkContext): Promise<void> { }
+    async onError(_ctx: SystemBenchmarkContext): Promise<void> { }
 
     static async beforeGroup(
         database: duckdb.DuckDBBindings,
@@ -207,7 +207,7 @@ export class DuckDBSyncIntegerSortBenchmark implements SystemBenchmark {
             name: this.getName(),
         });
     }
-    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async run(_ctx: SystemBenchmarkContext): Promise<void> {
         const result = this.connection!.query<{ v0: arrow.Int32 }>(
             `SELECT * FROM ${this.getName()} ORDER BY (${this.orderBy.join(',')})`,
@@ -221,7 +221,7 @@ export class DuckDBSyncIntegerSortBenchmark implements SystemBenchmark {
             throw Error(`invalid tuple count. expected ${this.tuples}, received ${n}`);
         }
     }
-    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async afterAll(_ctx: SystemBenchmarkContext): Promise<void> {
         this.connection?.query(`DROP TABLE IF EXISTS ${this.getName()}`);
         this.connection?.close();
@@ -277,7 +277,7 @@ export class DuckDBSyncIntegerTopKBenchmark implements SystemBenchmark {
             name: this.getName(),
         });
     }
-    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async run(_ctx: SystemBenchmarkContext): Promise<void> {
         const result = this.connection!.query<{ v0: arrow.Int32 }>(
             `SELECT * FROM ${this.getName()} ORDER BY (${this.orderBy.join(',')}) LIMIT ${this.k}`,
@@ -291,7 +291,7 @@ export class DuckDBSyncIntegerTopKBenchmark implements SystemBenchmark {
             throw Error(`invalid tuple count. expected ${this.k}, received ${n}`);
         }
     }
-    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async afterAll(_ctx: SystemBenchmarkContext): Promise<void> {
         this.connection?.query(`DROP TABLE IF EXISTS ${this.getName()}`);
         this.connection?.close();
@@ -334,7 +334,7 @@ export class DuckDBSyncIntegerSumBenchmark implements SystemBenchmark {
             name: this.getName(),
         });
     }
-    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async run(_ctx: SystemBenchmarkContext): Promise<void> {
         const result = this.connection!.query<{ v0: arrow.Int32 }>(`SELECT SUM(v1) FROM ${this.getName()} GROUP BY v0`);
         let n = 0;
@@ -347,7 +347,7 @@ export class DuckDBSyncIntegerSumBenchmark implements SystemBenchmark {
             throw Error(`invalid tuple count. expected ${expectedGroups}, received ${n}`);
         }
     }
-    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async afterAll(_ctx: SystemBenchmarkContext): Promise<void> {
         this.connection?.query(`DROP TABLE IF EXISTS ${this.getName()}`);
         this.connection?.close();
@@ -389,7 +389,7 @@ export class DuckDBSyncCSVSumBenchmark implements SystemBenchmark {
         this.database.registerFileBuffer('TEMP', buffer);
         this.connection = this.database.connect();
     }
-    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async run(_ctx: SystemBenchmarkContext): Promise<void> {
         const result = this.connection!.query(
             `SELECT SUM(v1) FROM read_csv('TEMP', delim = '|', header = False, columns={'v0': 'INTEGER', 'v1': 'INTEGER'}) GROUP BY v0`,
@@ -404,7 +404,7 @@ export class DuckDBSyncCSVSumBenchmark implements SystemBenchmark {
             throw Error(`invalid tuple count. expected ${expectedGroups}, received ${n}`);
         }
     }
-    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async afterAll(_ctx: SystemBenchmarkContext): Promise<void> {
         this.database.dropFile('TEMP');
         this.connection?.close();
@@ -447,7 +447,7 @@ export class DuckDBSyncRegexBenchmark implements SystemBenchmark {
             name: this.getName(),
         });
     }
-    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async run(_ctx: SystemBenchmarkContext): Promise<void> {
         const result = this.connection!.query<{ v0: arrow.Int32 }>(
             `SELECT * FROM ${this.getName()} WHERE v0 LIKE '_#%'`,
@@ -461,7 +461,7 @@ export class DuckDBSyncRegexBenchmark implements SystemBenchmark {
             throw Error(`invalid tuple count. expected 10, received ${n}`);
         }
     }
-    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async afterAll(_ctx: SystemBenchmarkContext): Promise<void> {
         this.connection?.query(`DROP TABLE IF EXISTS ${this.getName()}`);
         this.connection?.close();
@@ -513,7 +513,7 @@ export class DuckDBSyncIntegerJoin2Benchmark implements SystemBenchmark {
             name: `${this.getName()}_b`,
         });
     }
-    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async run(_ctx: SystemBenchmarkContext): Promise<void> {
         const result = this.connection!.query<{ v0: arrow.Int32 }>(`
             SELECT *
@@ -531,7 +531,7 @@ export class DuckDBSyncIntegerJoin2Benchmark implements SystemBenchmark {
             throw Error(`invalid tuple count. expected ${expected}, received ${n}`);
         }
     }
-    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async afterAll(_ctx: SystemBenchmarkContext): Promise<void> {
         this.connection?.query(`DROP TABLE IF EXISTS ${this.getName()}_a`);
         this.connection?.query(`DROP TABLE IF EXISTS ${this.getName()}_b`);
@@ -602,7 +602,7 @@ export class DuckDBSyncIntegerJoin3Benchmark implements SystemBenchmark {
             name: `${this.getName()}_c`,
         });
     }
-    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async beforeEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async run(_ctx: SystemBenchmarkContext): Promise<void> {
         const result = this.connection!.query<{ v0: arrow.Int32 }>(`
             SELECT *
@@ -621,7 +621,7 @@ export class DuckDBSyncIntegerJoin3Benchmark implements SystemBenchmark {
             throw Error(`invalid tuple count. expected ${expected}, received ${n}`);
         }
     }
-    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> {}
+    async afterEach(_ctx: SystemBenchmarkContext): Promise<void> { }
     async afterAll(_ctx: SystemBenchmarkContext): Promise<void> {
         this.connection?.query(`DROP TABLE IF EXISTS ${this.getName()}_a`);
         this.connection?.query(`DROP TABLE IF EXISTS ${this.getName()}_b`);
