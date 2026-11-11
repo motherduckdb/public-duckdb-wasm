@@ -31,7 +31,8 @@ env:
   EMSCRIPTEN_VERSION_COI: '6.0.9'
   DEFAULT_USE_GENERATED_EXPORTED_LIST: 'no'
   # DuckDB >= v2.0 no longer derives its version from git tags, the wasm builds pick this up instead.
-  # The Wasm jobs override it with the duckdb_version job, which falls back to the submodule's release tag.
+  # The Wasm jobs override it with the duckdb_version job, which falls back to the submodule's release tag,
+  # then to the duckdb-build-version file.
   OVERRIDE_GIT_DESCRIBE: ${{ inputs.override_git_describe }}
 
 jobs:
@@ -116,6 +117,11 @@ jobs:
                       url=$(git config -f .gitmodules submodule.submodules/duckdb.url)
                       version=$(git ls-remote --tags "${url}" 'v*.*.*' \
                           | awk -v sha="${sha}" '$1 == sha { sub("^refs/tags/", "", $2); sub("\\^\\{\\}$", "", $2); print $2; exit }')
+                  fi
+                  # Not a release: use the nightly version checked in next to the submodule pin, the version
+                  # DuckDB published extensions for (mono's duckdb-build-version for the same commit)
+                  if [ -z "${version}" ] && [ -s duckdb-build-version ]; then
+                      version=$(tr -d '[:space:]' < duckdb-build-version)
                   fi
                   echo "DuckDB version: ${version:-<none, keep the dev version>}"
                   echo "version=${version}" >> "$GITHUB_OUTPUT"
