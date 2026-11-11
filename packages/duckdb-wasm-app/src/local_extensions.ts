@@ -1,4 +1,4 @@
-import type { DuckDBConfig } from '@duckdb/duckdb-wasm';
+import type { DuckDBConfig } from '@motherduck/duckdb-wasm';
 
 export function localExtensionConfig(location: URL): DuckDBConfig | undefined {
     if (

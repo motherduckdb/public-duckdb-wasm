@@ -150,8 +150,8 @@ After editing the Rust shell, rebuild the shell package and the app that embeds
 it. For app-only edits, skip the first command:
 
 ```shell
-yarn workspace @duckdb/duckdb-wasm-shell build:debug
-yarn workspace @duckdb/duckdb-wasm-app build:release
+yarn workspace @motherduck/duckdb-wasm-shell build:debug
+yarn workspace @motherduck/duckdb-wasm-app build:release
 cp -R build/extension_repository packages/duckdb-wasm-app/build/release/
 npx http-server packages/duckdb-wasm-app/build/release -c-1 -a 127.0.0.1 -p 8081
 ```

@@ -13,20 +13,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'xterm/css/xterm.css';
 import 'react-popper-tooltip/dist/styles.css';
 
-import * as duckdb from '@duckdb/duckdb-wasm';
-import duckdb_wasm_base from '@duckdb/duckdb-wasm/dist/duckdb-base.wasm';
-import duckdb_wasm_threads from '@duckdb/duckdb-wasm/dist/duckdb-threads.wasm';
+import * as duckdb from '@motherduck/duckdb-wasm';
+import duckdb_wasm_base from '@motherduck/duckdb-wasm/dist/duckdb-base.wasm';
+import duckdb_wasm_threads from '@motherduck/duckdb-wasm/dist/duckdb-threads.wasm';
 
 const DUCKDB_BUNDLES: duckdb.DuckDBBundles = {
     base: {
         mainModule: duckdb_wasm_base,
-        mainWorker: new URL('@duckdb/duckdb-wasm/dist/duckdb-browser-base.worker.js', import.meta.url).toString(),
+        mainWorker: new URL('@motherduck/duckdb-wasm/dist/duckdb-browser-base.worker.js', import.meta.url).toString(),
     },
     threads: {
         mainModule: duckdb_wasm_threads,
-        mainWorker: new URL('@duckdb/duckdb-wasm/dist/duckdb-browser-threads.worker.js', import.meta.url).toString(),
+        mainWorker: new URL('@motherduck/duckdb-wasm/dist/duckdb-browser-threads.worker.js', import.meta.url).toString(),
         pthreadWorker: new URL(
-            '@duckdb/duckdb-wasm/dist/duckdb-browser-threads.pthread.worker.js',
+            '@motherduck/duckdb-wasm/dist/duckdb-browser-threads.pthread.worker.js',
             import.meta.url,
         ).toString(),
     },

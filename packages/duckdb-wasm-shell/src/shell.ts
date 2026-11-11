@@ -1,8 +1,8 @@
-import * as duckdb from '@duckdb/duckdb-wasm';
+import * as duckdb from '@motherduck/duckdb-wasm';
 import * as shell from '../crate/pkg';
 import { HistoryStore } from './utils/history_store';
 import { pickFiles } from './utils/files';
-import { InstantiationProgress } from '@duckdb/duckdb-wasm/dist/types/src/bindings';
+import { InstantiationProgress } from '@motherduck/duckdb-wasm/dist/types/src/bindings';
 
 const hasWebGL = (): boolean => {
     if (duckdb.isSafari()) {
@@ -53,16 +53,16 @@ class ShellRuntime {
         return await navigator.clipboard.writeText(value);
     }
     public async pushInputToHistory(this: ShellRuntime, value: string) {
-	const encode = encodeURIComponent(extraswaps(value));
-	if (this.hash === "")
-		this.hash = "queries=v0";
-	this.hash += ",";
-	this.hash += encode;
-	if (window.location.hash.startsWith("#savequeries"))
-		window.location.hash = "savequeries&" + this.hash;
+        const encode = encodeURIComponent(extraswaps(value));
+        if (this.hash === "")
+            this.hash = "queries=v0";
+        this.hash += ",";
+        this.hash += encode;
+        if (window.location.hash.startsWith("#savequeries"))
+            window.location.hash = "savequeries&" + this.hash;
         const a = document.getElementById("hashencoded");
-	if (a && a instanceof HTMLAnchorElement)
-		a.href= "/#" + this.hash;
+        if (a && a instanceof HTMLAnchorElement)
+            a.href = "/#" + this.hash;
         this.history.push(value);
     }
 }
@@ -84,20 +84,20 @@ function formatBytes(value: number): string {
 
 function extraswaps(input: string): string {
     // As long as this function is symmetrical, all good
-    let res : string = "";
-    for (let i=0; i<input.length; i++) {
-	if (input[i] == ' ')
-		res += '-';
-	else if (input[i] == '-')
-		res += ' ';
-	else if (input[i] == ';')
-		res += '~';
-	else if (input[i] == '~')
-		res += ';';
-	else
-		res += input[i];
-	}
-	return res;
+    let res: string = "";
+    for (let i = 0; i < input.length; i++) {
+        if (input[i] == ' ')
+            res += '-';
+        else if (input[i] == '-')
+            res += ' ';
+        else if (input[i] == ';')
+            res += '~';
+        else if (input[i] == '~')
+            res += ';';
+        else
+            res += input[i];
+    }
+    return res;
 }
 
 export async function embed(props: ShellProps) {
@@ -147,12 +147,12 @@ export async function embed(props: ShellProps) {
     await step('Attaching Shell', async () => {
         shell.configureDatabase(runtime.database);
     });
-	const hash = window.location.hash;
-	const splits = hash.split(',');
-	const sqls : Array<string> = [];
-	for (let i=1; i< splits.length; i++) {
-		sqls.push(extraswaps(decodeURIComponent(splits[i])));
-		}
+    const hash = window.location.hash;
+    const splits = hash.split(',');
+    const sqls: Array<string> = [];
+    for (let i = 1; i < splits.length; i++) {
+        sqls.push(extraswaps(decodeURIComponent(splits[i])));
+    }
     await step('Rewinding history!', async () => {
         shell.passInitQueries(sqls);
     });

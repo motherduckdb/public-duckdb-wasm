@@ -1,6 +1,6 @@
 // TPC-H scale factor search (test/index_tpch_scale.ts), not part of the regular suite:
 //   EXTRA_CMAKE_FLAGS=-DDUCKDB_WASM_STATIC_TPCH=1 ./scripts/wasm_build_lib.sh relsize base
-//   yarn workspace @duckdb/duckdb-wasm build:debug
+//   yarn workspace @motherduck/duckdb-wasm build:debug
 //   CHROME_BIN=... karma start ./karma/tpch-scale-chrome.cjs
 const base = require('./karma.base.cjs');
 
